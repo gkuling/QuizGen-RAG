@@ -1,11 +1,13 @@
 import os
-import pdfreader
+import chromadb
 import json
 
 import argparse
 
 from llama_index.core import SimpleDirectoryReader, Settings, VectorStoreIndex
 from llama_index.embeddings.azure_openai import AzureOpenAIEmbedding
+from llama_index.legacy import StorageContext
+from llama_index.legacy.vector_stores import ChromaVectorStore
 from llama_index.llms.azure_openai import AzureOpenAI
 
 import dotenv
@@ -32,19 +34,48 @@ def main():
                                                            'folder containing PDFs to parse.')
     args = parser.parse_args()
 
-    documents = SimpleDirectoryReader(args.pdf_folder_path).load_data()
-    print('Parsed data:')
-    index = VectorStoreIndex.from_documents(documents)
+    vec_store = os.path.join(
+            args.pdf_folder_path, "chroma_db"
+        )
+
+    # initialize client, setting path to save data
+    db = chromadb.PersistentClient(path=vec_store)
+
+    # create collection
+    chroma_collection = db.get_or_create_collection("quickstart")
+
+    # assign chroma as the vector_store to the context
+    vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
+    storage_context = StorageContext.from_defaults(
+        vector_store=vector_store)
+    # if os.path.exists(vec_store):
+    #     # load your index from stored vectors
+    #     index = VectorStoreIndex.from_vector_store(
+    #         vector_store, storage_context=storage_context
+    #     )
+    #     print('Loaded data from data.json')
+    # else:
+
+    # documents = SimpleDirectoryReader(args.pdf_folder_path).load_data()
+    # print('Parsed data:')
+    # # create your index
+    # index = VectorStoreIndex.from_documents(
+    #     documents, storage_context=storage_context
+    # )
+
+    index = VectorStoreIndex.from_vector_store(
+        vector_store, storage_context=storage_context
+    )
+
     print('Indexed data:')
     query_engine = index.as_query_engine()
     response = query_engine.query(
-        "What are the themes of 'KGAT: Knowledge Graph "
-        "Attention Network for Recommendation' article?")
+        "What are 10 themes from 'KGAT: Knowledge Graph "
+        "Attention Network for Recommendation' article? Give full quotes to "
+        "support your answer.")
     print(response)
 
-    with open('data.json', 'w') as f:
-        json.dump(documents, f, indent=4)
-    print('Data saved to data.json')
+
 
 if __name__ == '__main__':
     main()
