@@ -71,6 +71,7 @@ def build_RAG():
         # persist index to vec_store
         index.storage_context.persist(persist_dir=vec_store)
     else:
+        print('Loading index from vec_store...')
         # load index from vec_store if it exists
         storage_context = StorageContext.from_defaults(
             persist_dir=vec_store)
@@ -81,7 +82,7 @@ def build_RAG():
     print('Indexed data:')
     # query index
     query_engine = index.as_query_engine()
-    query = "What are main themes from this course RAG model?"
+    query = "What are the main themes Artifical Intelligence in Medicine?"
     response = query_engine.query(query)
     print('Query:', query)
     print('-'*50)
