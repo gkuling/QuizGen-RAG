@@ -48,14 +48,13 @@ def build_RAG():
 
     if not os.path.exists(os.path.join(vec_store, "docstore.json")):
         # create vec_store if it doesn't exist from scratch
-        os.makedirs(vec_store)
+        if not os.path.exists(vec_store):
+            os.makedirs(vec_store)
 
-        # load documents with text splitter, title extractor, and qa extractor
+        # load documents with text splitter
         text_splitter = TokenTextSplitter(
             separator=" ", chunk_size=chunk_sz, chunk_overlap=overlap
         )
-        title_extractor = TitleExtractor(nodes=5)
-        qa_extractor = QuestionsAnsweredExtractor(questions=questions)
         print('Beginning document parsing...')
         documents = SimpleDirectoryReader(args.pdf_folder_path).load_data()
         print('Finished document parsing.')
@@ -64,7 +63,8 @@ def build_RAG():
         print('Indexing data...')
         index = VectorStoreIndex.from_documents(
             documents,
-            transformations=[text_splitter, title_extractor, qa_extractor]
+            show_progress=True,
+            transformations=[text_splitter]
         )
         print('Finished indexing data.')
 
