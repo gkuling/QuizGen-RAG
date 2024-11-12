@@ -24,13 +24,13 @@ cd QuizGen-RAG
 ```
 2. **Install Dependencies**: Ensure Python 3.x is installed, and install required libraries:
 ```bash
-Copy code
 pip install -r requirements.txt
 ```
-3. **Extract Text from PDFs**: Place PDF files in /data/pdf_content/ and run the extraction script:
+3. **Build RAG Model**: Place PDF files in /data/pdf_content/ and run the 
+   extraction 
+   script:
 ```bash
-Copy code
-python scripts/extract_text.py
+python scripts/build_RAG.py --pdf_folder_path ./data/pdf_content/ 
 ```
 
 Generate Quiz Questions: Feature coming soon.
