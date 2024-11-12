@@ -4,10 +4,10 @@ import json
 
 import argparse
 
-from llama_index.core import SimpleDirectoryReader, Settings, VectorStoreIndex
+from llama_index.core import SimpleDirectoryReader, Settings, VectorStoreIndex, \
+    load_index_from_storage
 from llama_index.embeddings.azure_openai import AzureOpenAIEmbedding
-from llama_index.legacy import StorageContext
-from llama_index.legacy.vector_stores import ChromaVectorStore
+from llama_index.core import StorageContext
 from llama_index.llms.azure_openai import AzureOpenAI
 
 import dotenv
@@ -38,41 +38,27 @@ def main():
             args.pdf_folder_path, "chroma_db"
         )
 
-    # initialize client, setting path to save data
-    db = chromadb.PersistentClient(path=vec_store)
+    if not os.path.exists(vec_store):
+        os.makedirs(vec_store)
+        print('Beginning document parsing...')
+        documents = SimpleDirectoryReader(args.pdf_folder_path).load_data()
+        print('Finished document parsing.')
+        print('Indexing data...')
+        index = VectorStoreIndex.from_documents(documents)
+        print('Finished indexing data.')
+        index.storage_context.persist(persist_dir=vec_store)
+    else:
+        # rebuild storage context
+        storage_context = StorageContext.from_defaults(
+            persist_dir=vec_store)
 
-    # create collection
-    chroma_collection = db.get_or_create_collection("quickstart")
-
-    # assign chroma as the vector_store to the context
-    vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
-    storage_context = StorageContext.from_defaults(
-        vector_store=vector_store)
-    # if os.path.exists(vec_store):
-    #     # load your index from stored vectors
-    #     index = VectorStoreIndex.from_vector_store(
-    #         vector_store, storage_context=storage_context
-    #     )
-    #     print('Loaded data from data.json')
-    # else:
-
-    # documents = SimpleDirectoryReader(args.pdf_folder_path).load_data()
-    # print('Parsed data:')
-    # # create your index
-    # index = VectorStoreIndex.from_documents(
-    #     documents, storage_context=storage_context
-    # )
-
-    index = VectorStoreIndex.from_vector_store(
-        vector_store, storage_context=storage_context
-    )
+        # load index
+        index = load_index_from_storage(storage_context)
 
     print('Indexed data:')
     query_engine = index.as_query_engine()
     response = query_engine.query(
-        "What are 10 themes from 'KGAT: Knowledge Graph "
-        "Attention Network for Recommendation' article? Give full quotes to "
-        "support your answer.")
+        "What are 10 themes from this course RAG model?")
     print(response)
 
 
