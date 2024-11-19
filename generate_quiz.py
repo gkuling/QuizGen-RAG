@@ -86,20 +86,24 @@ def generate_quiz(pdf_folder_path, week_number, num_questions, output_local):
             concept, concept_type,  taxonomy, rag
         )
 
-        question_prompt += (
-            ' \nFormat the response as a python dictionary. For example: {'
-            '"question": "What is the capital of France?", "answer": "Paris"}'
-        )
-
         # Step 4: Generate Questions and Answers
         response = llm.chat([
             ChatMessage(role='system', content='You are a teacher preparing a quiz for your students.'),
             ChatMessage(role='user', content=question_prompt)
         ])
 
-        # Extract the question and answer from the response
+        # Step 5: Extract the question and answer from the response
+        reformat_prompt = "Given the quesiton and answer pair: \n\n" + \
+            response.message.content + "\n\n" + \
+                f"Generate a Python dictionary containing the question and answer the can be turned into a variable using eval(). Please use the following format: \n\n" + \
+                    "{'question': 'The Question', 'answer': 'The Answer'} \n"
+        response2 = llm.chat([
+            ChatMessage(role='system', content='You are a python coder.'),
+            ChatMessage(role='user', content=reformat_prompt)
+        ])      
+                    
         try:
-            qa = eval(response.message.content.replace('`','').split('python')[-1])
+            qa = eval(response2.message.content)
         except Exception as e:
             if e.args[0].contains('SyntaxError: unterminated string literal'):
                 new_response = llm.chat([

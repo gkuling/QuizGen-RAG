@@ -22,10 +22,12 @@
 git clone https://github.com/yourusername/QuizGen-RAG.git
 cd QuizGen-RAG
 ```
+
 2. **Install Dependencies**: Ensure Python 3.x is installed, and install required libraries:
 ```bash
 pip install -r requirements.txt
 ```
+
 3. **Build RAG Model**: Place PDF files in /data/pdf_content/ and run the 
    extraction 
    script:
@@ -33,7 +35,10 @@ pip install -r requirements.txt
 python scripts/build_RAG.py --pdf_folder_path ./data/pdf_content/ 
 ```
 
-Generate Quiz Questions: Feature coming soon.
+4. **Generate Quiz Questions**: Generate quiz questions based on the course schedule:
+```bash
+python scripts/generate_quiz.py --week_number <WEEK_NUMBER> --num_questions <NUM_QUESTIONS> --pdf_folder_path ./data/pdf_content/ --output_local <OUTPUT_DIRECTORY>
+```
 
 ### Future Development
 Integration with Knowledge Tracing to enable adaptive question selection.
