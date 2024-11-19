@@ -1,3 +1,4 @@
+import re
 from BTQ_prompt import generate_quiz_question_prompt
 from course_time_table import course_schedule
 import os
@@ -48,7 +49,25 @@ rag = load_index_from_storage(storage_context)
 rag = rag.as_query_engine()
 print('Finished loading index from vec_store.')
 
-
+def postprocess_llmresposne(response):
+        # Extract the question and answer from the response
+        reformat_prompt = "Given the quesiton and answer pair: \n\n" + \
+            response + "\n\n" + \
+                f"Generate a Python dictionary containing the question and answer pair. Please use the following format: \n\n" + \
+                    "{'question': 'The Question', 'answer': 'The Answer'} \n"
+        response2 = llm.chat([
+            ChatMessage(role='system', content='You are a helpful assistant designed to output Python dictionaries.'),
+            ChatMessage(role='user', content=reformat_prompt)
+        ])      
+        code_match = re.search(r"```python(.*?)```", response2.message.content, re.DOTALL)
+        if code_match:
+            try:
+                return eval(code_match.group(1).strip())   
+            except:
+                return None
+        else:
+            return None
+        
 def generate_quiz(pdf_folder_path, week_number, num_questions, output_local):
 
     # get week data
@@ -91,31 +110,13 @@ def generate_quiz(pdf_folder_path, week_number, num_questions, output_local):
             ChatMessage(role='system', content='You are a teacher preparing a quiz for your students.'),
             ChatMessage(role='user', content=question_prompt)
         ])
-
-        # Step 5: Extract the question and answer from the response
-        reformat_prompt = "Given the quesiton and answer pair: \n\n" + \
-            response.message.content + "\n\n" + \
-                f"Generate a Python dictionary containing the question and answer the can be turned into a variable using eval(). Please use the following format: \n\n" + \
-                    "{'question': 'The Question', 'answer': 'The Answer'} \n"
-        response2 = llm.chat([
-            ChatMessage(role='system', content='You are a python coder.'),
-            ChatMessage(role='user', content=reformat_prompt)
-        ])      
-                    
-        try:
-            qa = eval(response2.message.content)
-        except Exception as e:
-            if e.args[0].contains('SyntaxError: unterminated string literal'):
-                new_response = llm.chat([
-                    ChatMessage(role='system', content='You are a python coder.'),
-                    ChatMessage(role='user', content=" Given the code: \n\neval(" + response.message.content + ")\n\nAnd the error message: SyntaxError: unterminated string literal\n\nEdit the text to fix the error.")
-                ])
-                try:
-                    qa = eval(new_response.message.content.replace('`','').split('python')[-1]) # Retry if error occurs again
-                except:
-                    print(f"Error generating question {i+1} twice. Skipping...")
-                    continue
-            print(f"Error generating question {i+1}. Skipping...")
+        qa = None
+        iter_cnt = 0
+        while qa is None and iter_cnt < 5:
+            qa = postprocess_llmresposne(response.message.content)
+            iter_cnt += 1
+        if qa is None:
+            print(f"Failed to generate question and answer for concept: {concept}")
             continue
         questions_list.append(qa)
         print(f"Q{i+1}: {qa['question']}")
