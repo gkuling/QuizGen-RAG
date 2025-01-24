@@ -12,8 +12,10 @@ course_schedule = {
                 "Clinical trial matching"
             ],
             "required_readings": [
-                "Rajkomar, A., Dean, J., & Kohane, I. (2019). Machine learning in medicine. New England Journal of Medicine, 380(14), 1347-1358.",
-                "Chapman, W. W., Nadkarni, P. M., Hirschman, L., et al. (2011). Overcoming barriers to NLP for clinical text. Journal of the American Medical Informatics Association, 18(5), 540-543."
+                "Singhal, et al. (2023). Large language models encode clinical "
+                "knowledge.",
+                "Himmelstein, G., et al. (2022). Examination of stigmatizing "
+                "language in the electronic health record."
             ]
         },
         {
@@ -21,15 +23,18 @@ course_schedule = {
             "title": "NLP II: Embeddings & Transformers",
             "concepts": [
                 "Embeddings and their role in NLP",
-                "Transformers and BERT",
-                "Hugging Face library for NLP applications",
+                "Transformers and BERT Hugging Face library for NLP "
+                "applications",
                 "Clinical BERT and RNNs",
+                "Stack-encoder and Stack-decoder architectures",
                 "De-identification methods",
-                "GPT-3 for medical question answering"
+                "LLM-based medical question-answering"
             ],
             "required_readings": [
-                "Devlin, J., Chang, M. W., Lee, K., & Toutanova, K. (2019). BERT: Pre-training of deep bidirectional transformers for language understanding. NAACL-HLT.",
-                "Lee, J., Yoon, W., Kim, S., et al. (2020). BioBERT: a pre-trained biomedical language representation model. Bioinformatics, 36(4), 1234-1240."
+                "Devlin, J., et al. (2019). BERT: Pre-training of deep "
+                "bidirectional transformers for language understanding.",
+                "Lee, J., et al. (2020). BioBERT: a pre-trained biomedical "
+                "language representation model. "
             ]
         },
         {
@@ -38,55 +43,82 @@ course_schedule = {
             "concepts": [
                 "Variational Autoencoders (VAEs)",
                 "Generative Adversarial Networks (GANs)",
+                "GenAI Fundamentals (training, optimization and RLHF)",
+                "LLMs and Multimodal LLMs",
+                "Grounding and RAG",
                 "Healthcare applications of generative AI",
                 "Synthetic data generation",
                 "Data privacy concerns"
             ],
             "required_readings": [
-                "Goodfellow, I., Pouget-Abadie, J., Mirza, M., et al. (2014). Generative adversarial nets. Advances in Neural Information Processing Systems.",
-                "Gulrajani, I., & Lopez-Paz, D. (2020). In search of lost domain generalization. arXiv preprint arXiv:2007.01434."
+                "Goodfellow, I., et al. (2014). Generative adversarial nets.",
+                "Gulrajani, I., et al. (2020). In search of lost domain "
+                "generalization."
             ]
         },
         {
             "week": 4,
-            "title": "Medical Image Analysis I",
+            "title": "Agentic AI",
             "concepts": [
-                "Introduction to computer vision in medicine",
-                "Convolutional Neural Networks (CNNs)",
-                "Image segmentation",
-                "Medical image diagnosis",
-                "Best practices for model evaluation",
-                "PyTorch basics"
+                "Designing LLM-driven agents to answer complex clinical "
+                "queries with evidence-backed reasoning",
+                "Strategies to evaluate accuracy, robustness, "
+                "and interpretability in high-stakes medical contexts",
+                "Case studies of LLM-based agents in clinical decision-making, "
+                "drug discovery, and patient triage",
+                "Emerging trends, such as real-time conversational agents, collaborative "
+                "multi-agent systems, and autonomous discovery"
             ],
             "required_readings": [
-                "Litjens, G., Kooi, T., Bejnordi, B. E., et al. (2017). A survey on deep learning in medical image analysis. Medical Image Analysis, 42, 60-88.",
-                "Esteva, A., Kuprel, B., Novoa, R. A., et al. (2017). Dermatologist-level classification of skin cancer with deep neural networks. Nature, 542(7639), 115-118."
+                "Tu, T., et al. (2024). Towards conversational diagnostic AI. ",
+                "Boiko, D.A., et al. (2023). Autonomous chemical research with "
+                "large language models. "
             ]
         },
         {
             "week": 5,
-            "title": "Medical Image Analysis II",
+            "title": "Medical Image Analysis I",
             "concepts": [
-                "Building, training, and evaluating models in pathology, oncology, and radiology",
-                "Using CheXpert for medical image analysis"
+                "Understanding medical imaging modalities",
+                "Understand the various types of medical imaging (radiology, oncology, "
+                "pathology, and other imaging modalities).",
+                "Learn the basic tasks in AI for medical imaging: classification, regression, and segmentation.",
+                "Explore how AI is applied in different medical imaging contexts.",
+                "Understand convolutional neural networks (CNNs) and their role in medical "
+                "imaging.",
+                "Learn segmentation techniques, focusing on the U-Net architecture.",
+                "Apply CNNs to biomedical image segmentation tasks, including preprocessing "
+                "and evaluation."
             ],
             "required_readings": [
-                "Irvin, J., Rajpurkar, P., Ko, M., et al. (2019). CheXpert: A large chest radiograph dataset with uncertainty labels and expert comparison. AAAI Conference on Artificial Intelligence.",
-                "Lu, M.Y., Chen, T.Y., Williamson, D.F.K. et al. AI-based pathology predicts origins for cancers of unknown primary. Nature 594, 106–110 (2021).",
-                "Yala, A., Mikhael, P. G., Strand, F., Lin, G., Smith, K., Wan, Y. L., ... & Barzilay, R. (2021). Toward robust mammography-based models for breast cancer risk. Science Translational Medicine, 13(578), eaba4373."
+                "Litjens, G., et al. (2017). A survey on deep learning in medical image analysis.",
+                "Esteva, A., et al. (2017). Dermatologist-level classification of skin cancer with deep neural networks. ",
+                "Antonelli, M., et al. (2022). The medical segmentation "
+                "decathlon.",
+                "Ronneberger, O., et al. (2015). U-Net: Convolutional networks "
+                "for biomedical image segmentation."
             ]
         },
         {
             "week": 6,
-            "title": "Medical Image Analysis III",
+            "title": "Medical Image Analysis II",
             "concepts": [
-                "Biomedical image segmentation",
-                "U-Net architecture",
-                "Model performance across diverse populations"
+                "Explore advanced applications of AI in medical imaging, "
+                "with a focus on generalist medical AI models.",
+                "Understand the development and validation of medical imaging interpretation "
+                "models.",
+                "Discuss best practices for evaluating medical imaging AI models, "
+                "with emphasis on robustness and performance across diverse populations.",
+
             ],
             "required_readings": [
-                "Antonelli, M., Reinke, A., Bakas, S., Farahani, K., Kopp-Schneider, A., Landman, B. A., ... & Cardoso, M. J. (2022). The medical segmentation decathlon. Nature communications, 13(1), 4128.",
-                "Ronneberger, O., Fischer, P., & Brox, T. (2015). U-Net: Convolutional networks for biomedical image segmentation. MICCAI."
+                "Moor, M., et al. (2023) Foundation models for generalist "
+                "medical artificial intelligence.",
+                "Tiu, E., et al. (2022) Expert-level detection of pathologies "
+                "from unannotated chest X-ray images via self-supervised learning. ",
+                "Zhou, H. Y., et al. (2024). A Generalist Learner for "
+                "Multifaceted Medical Image Interpretation. "
+
             ]
         },
         {
@@ -99,8 +131,12 @@ course_schedule = {
                 "Discussion: Is explainability critical or overrated?"
             ],
             "required_readings": [
-                "Ribeiro, M. T., Singh, S., & Guestrin, C. (2016). 'Why should I trust you?' Explaining the predictions of any classifier. ACM SIGKDD.",
-                "Ghassemi, M., Oakden-Rayner, L., & Beam, A. L. (2021). The false hope of current approaches to explainable AI in health care. The Lancet Digital Health, 3(11), e745-e750."
+                "Ribeiro, M. T., et al. (2016). 'Why should I trust you?' "
+                "Explaining the predictions of any classifier.",
+                "Lundberg, S.M., et al. (2018). Explainable machine-learning "
+                "predictions for the prevention of hypoxaemia during surgery.",
+                "Ghassemi, M., et al. (2021). The false hope of current "
+                "approaches to explainable AI in health care."
             ]
         },
         {
@@ -113,8 +149,12 @@ course_schedule = {
                 "Combining multiple data modalities with GNNs"
             ],
             "required_readings": [
-                "Kipf, T. N., & Welling, M. (2017). Semi-supervised classification with graph convolutional networks. ICLR.",
-                "Hamilton, W., Ying, Z., & Leskovec, J. (2017). Representation learning on graphs: Methods and applications. IEEE Data Engineering Bulletin."
+                "Grover, A. et al. (2016). node2vec: Scalable feature "
+                "learning for networks.",
+                "Li, M.M., eta l. (2022). Graph representation learning in "
+                "biomedicine and healthcare.",
+                "Ruiz, C., et al.  (2021). Identification of disease treatment "
+                "mechanisms through the multiscale interactome. "
             ]
         },
         {
@@ -127,13 +167,15 @@ course_schedule = {
                 "Knowledge-guided deep learning and inductive biases"
             ],
             "required_readings": [
-                "Wang, X., Zhang, X., Qi, G. J., et al. (2020). KGAT: Knowledge graph attention network for recommendation. KDD.",
-                "Zhu, H., Liu, H., Shen, Y., et al. (2021). Learning to pre-train graph neural networks. arXiv preprint arXiv:2103.11259."
+                "Nelson, C.A., et al. (2019). Integrating biomedical research "
+                "and electronic health records to create knowledge-based biologically meaningful machine-readable embeddings. ",
+                "Huang, K., et al. (2024). A foundation model for "
+                "clinician-centered drug repurposing."
             ]
         },
         {
             "week": 10,
-            "title": "Networks III",
+            "title": "Molecular AI",
             "concepts": [
                 "AI for protein structure prediction",
                 "Drug discovery and therapeutic science",
@@ -142,8 +184,9 @@ course_schedule = {
                 "Deep learning on genomic data"
             ],
             "required_readings": [
-                "Jumper, J., Evans, R., Pritzel, A., et al. (2021). Highly accurate protein structure prediction with AlphaFold. Nature, 596(7873), 583-589.",
-                "Stokes, J. M., Yang, K., Swanson, K., et al. (2020). A deep learning approach to antibiotic discovery. Cell, 180(4), 688-702."
+                "Jumper, J., et al. (2021). Highly accurate protein structure prediction with AlphaFold.",
+                "Stokes, J. M., et al. (2020). A deep learning approach to "
+                "antibiotic discovery."
             ]
         },
         {
@@ -156,12 +199,32 @@ course_schedule = {
                 "Exploring models like CheXzero and DALL-E"
             ],
             "required_readings": [
-                "Radford, A., Kim, J. W., Hallacy, C., et al. (2021). Learning transferable visual models from natural language supervision. ICML.",
-                "Zhang, Z., Hu, H., Xu, Z., et al. (2020). ConVIRT: Contrastive learning of medical visual representations. Medical Image Computing and Computer-Assisted Intervention (MICCAI)."
+                "Radford, A., et al. (2021). Learning transferable visual models from natural language supervision.",
+                "Zhang, Z., et al. (2020). ConVIRT: Contrastive learning of "
+                "medical visual representations."
             ]
         },
         {
             "week": 12,
+            "title": "Ethical & Legal Considerations in AI for Medicine",
+            "concepts": [
+                "Regulation of AI algorithms and devices in healthcare",
+                "FDA oversight and liability concerns",
+                "Prospective clinical trials for AI systems and AI-augmented devices"
+            ],
+            "required_readings": [
+                "Gerke, S., et al. (2020). Ethical and legal aspects of "
+                "ambient intelligence in hospitals. ",
+                "Price, W. N., et al. (2019). Privacy in the age of medical "
+                "big data.",
+                "Babic, B., et al. (2019). Algorithms on regulatory lockdown "
+                "in medicine. ",
+                "Price, W.N., et al. (2019). Potential liability for "
+                "physicians using artificial intelligence."
+            ]
+        },
+        {
+            "week": 13,
             "title": "Time Series & Sensors in Healthcare",
             "concepts": [
                 "Digital biomarkers and disease progression tracking",
@@ -170,22 +233,12 @@ course_schedule = {
                 "Intelligent and accessible AI systems for healthcare delivery"
             ],
             "required_readings": [
-                "Solares, J. R., Raimondi, F., Zhu, Y., et al. (2020). Deep learning for electronic health records: A comparative review of multiple deep neural architectures. Journal of Biomedical Informatics, 101, 103337.",
-                "Shickel, B., Tighe, P. J., Bihorac, A., & Rashidi, P. (2018). Deep EHR: A survey of recent advances in deep learning techniques for electronic health record analysis. IEEE Journal of Biomedical and Health Informatics, 22(5), 1589-1604."
-            ]
-        },
-        {
-            "week": 13,
-            "title": "Ethical & Legal Considerations in AI for Medicine",
-            "concepts": [
-                "Regulation of AI algorithms and devices in healthcare",
-                "FDA oversight and liability concerns",
-                "Prospective clinical trials for AI systems and AI-augmented devices"
-            ],
-            "required_readings": [
-                "McCradden, M. D., Stephenson, E. A., & Anderson, J. A. (2020). Regulatory frameworks for development and evaluation of AI-based diagnostic aids. Clinical Radiology, 75(9), 708-714.",
-                "Price, W. N., & Cohen, I. G. (2019). Privacy in the age of medical big data. Nature Medicine, 25(1), 37-43."
+                "Yang, Y., et al. (2022). Artificial intelligence-enabled "
+                "detection and assessment of Parkinson’s disease using nocturnal breathing signals. ",
+                "Cohen, N.M., et al. (2024). Longitudinal machine learning "
+                "uncouples healthy aging factors from chronic disease risks. "
             ]
         }
+
     ]
 }

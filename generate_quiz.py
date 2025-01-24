@@ -37,7 +37,7 @@ llm = Settings.llm
 
 ### Setting up the RAG Model for knowledge base
 
-vec_store = r"C:\Project_Data\AIM2_project\course_pdf_data\vec_store"
+vec_store = r"C:\Project_Data\AIM2_project\vec_store"
 
 print('Loading index from vec_store...')
 # load index from vec_store if it exists
