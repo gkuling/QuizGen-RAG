@@ -8,7 +8,7 @@ course_schedule = {
                 "NLP in a clinical setting",
                 "Medical terminology challenges",
                 "Concept extraction from clinical notes",
-                "Note summarization",
+                "Clinical Note summarization",
                 "Clinical trial matching"
             ],
             "required_readings": [

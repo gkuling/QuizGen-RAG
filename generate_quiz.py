@@ -37,7 +37,7 @@ llm = Settings.llm
 
 ### Setting up the RAG Model for knowledge base
 
-vec_store = r"C:\Project_Data\AIM2_project\vec_store"
+vec_store = r"C:\Project_Data\AIM2_project\course_pdf_store\vec_store"
 
 print('Loading index from vec_store...')
 # load index from vec_store if it exists
@@ -48,77 +48,100 @@ storage_context = StorageContext.from_defaults(
 rag = load_index_from_storage(storage_context)
 rag = rag.as_query_engine()
 print('Finished loading index from vec_store.')
-
-def postprocess_llmresposne(response):
-        # Extract the question and answer from the response
-        reformat_prompt = "Given the quesiton and answer pair: \n\n" + \
-            response + "\n\n" + \
-                f"Generate a Python dictionary containing the question and answer pair. Please use the following format: \n\n" + \
-                    "{'question': 'The Question', 'answer': 'The Answer'} \n"
-        response2 = llm.chat([
-            ChatMessage(role='system', content='You are a helpful assistant designed to output Python dictionaries.'),
-            ChatMessage(role='user', content=reformat_prompt)
-        ])      
-        code_match = re.search(r"```python(.*?)```", response2.message.content, re.DOTALL)
-        if code_match:
-            try:
-                return eval(code_match.group(1).strip())   
-            except:
-                return None
-        else:
-            return None
-        
-def generate_quiz(pdf_folder_path, week_number, num_questions, output_local):
+def generate_quiz(week_number, num_questions, output_local):
 
     # get week data
     question_options = []
     week_data = next((week for week in course_schedule["weeks"] if week["week"]
     == week_number), None)
-    week_data['topics'] = list(zip(['concept']*len(week_data['concepts']), 
-                                   week_data['concepts'])) + \
-        list(zip(['article']*len(week_data['required_readings']), 
-                 week_data['required_readings']))
     # generate question options based on topics and skill levels
-    for topic in week_data["topics"]:
+    for reading in week_data["required_readings"]:
+        for opjective in week_data['concepts']:
+
         # Add different skill levels for each topic based on Bloom's Taxonomy
-        for skill_level in ["Knowledge", "Understanding", "Applying",
-                            "Analyzing", "Evaluating", "Creating"]:
-            question_options.append(
-                {'topic': topic[1], 'topic_type': topic[0], 'skill_level': skill_level}
-                )
+            for skill_level in ["Knowledge", "Understanding", "Applying",
+                                "Analyzing", "Evaluating", "Creating"]:
+                question_options.append(
+                    {'reference': reading,
+                     'objective': opjective,
+                     'skill_level': skill_level}
+                    )
+
     # Calculate the number of times we need to repeat the list
-    repeat_count = int(np.ceil(num_questions / len(question_options)))
+    repeat_count = int(np.ceil(num_questions / len(question_options)) if
+                       num_questions > 0 else 1)
 
     # Repeat the list and slice to get the exact target length
     question_options = (question_options * repeat_count)
-    np.random.shuffle(question_options)
-    question_options = question_options[:num_questions]
+    if num_questions > 0:
+        np.random.shuffle(question_options)
+        question_options = question_options[:num_questions]
+
+    # declare a system prompt
+    system_prompt = """
+    You are an expert educator creating short-answer quiz questions for a 
+    college-level course. These questions are formative assessments, checking 
+    students’ current understanding to guide further learning, not a final, 
+    summative evaluation.  
+
+    Each question should be answerable in around 200 words or fewer.
+
+    Use Bloom’s Taxonomy to vary cognitive complexity:
+    1. Knowledge (Recall, identify)
+    2. Understanding (Explain, summarize)
+    3. Applying (Use concepts or methods in real contexts)
+    4. Analyzing (Compare, contrast)
+    5. Evaluating (Critique, judge)
+    6. Creating (Design, propose)
+
+    You will receive:
+    - A *reference* (the learning material)
+    - A *learning objective*
+    - A *Bloom's level*
+    - Key *facts* from the reference
+
+    Your task:
+    1. Generate exactly ONE question aligned with the specified Bloom’s level.
+    2. Provide a concise, accurate answer (under 200 words).
+    3. Base the Q&A on the provided facts.
+    4. Format your output as a JSON:
+    {
+      "question": "...",
+      "answer": "..."
+    }
+    No extra text.
+    """
 
     questions_list = []
     for i, question in enumerate(question_options):
-        concept = question['topic']
+        objective = question['objective']
         taxonomy = question['skill_level']
-        concept_type = question['topic_type']
+        reference = question['reference']
 
         # Step 3: Generate Questions Based on Skill Level
         question_prompt = generate_quiz_question_prompt(
-            concept, concept_type,  taxonomy, rag
+            objective, reference,  taxonomy, rag
         )
 
         # Step 4: Generate Questions and Answers
         response = llm.chat([
-            ChatMessage(role='system', content='You are a teacher preparing a quiz for your students.'),
+            ChatMessage(role='system', content=system_prompt),
             ChatMessage(role='user', content=question_prompt)
         ])
-        qa = None
-        iter_cnt = 0
-        while qa is None and iter_cnt < 5:
-            qa = postprocess_llmresposne(response.message.content)
-            iter_cnt += 1
-        if qa is None:
-            print(f"Failed to generate question and answer for concept: {concept}")
+        try:
+            qa = response.message.content
+            qa = qa.split('```json')[-1].replace('```', '')
+            qa = eval(qa)
+        except:
             continue
-        questions_list.append(qa)
+        questions_list.append({
+            'learning_objective': objective,
+            'reference': reference,
+            'taxonomy': taxonomy,
+            'promtp': question_prompt,
+            'question': qa['question'],
+            'answer': qa['answer']
+        })
         print(f"Q{i+1}: {qa['question']}")
         print(f"A{i+1}: {qa['answer']}")
         print()
@@ -138,12 +161,12 @@ if __name__=='__main__':
     parser.add_argument('--week_number', type=int,
                         help='The week number for which to generate quiz '
                              'questions.')
-    parser.add_argument('--num_questions', type=int, default=2,
+    parser.add_argument('--num_questions', type=int, default=-1,
                         help='The number of quiz questions to generate.')
     parser.add_argument('--pdf_folder_path', type=str,
                         help='Path to the folder containing the vec_store.')
     parser.add_argument('--output_local', type=str, default='.',)
     args = parser.parse_args()
 
-    generate_quiz(args.pdf_folder_path, args.week_number, args.num_questions,
+    generate_quiz(args.week_number, args.num_questions,
                   args.output_local)
