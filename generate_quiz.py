@@ -14,10 +14,8 @@ from llama_index.core.llms import ChatMessage
 
 import dotenv
 dotenv.load_dotenv('.env')
-chunk_sz = 1024
-overlap = int(np.round(chunk_sz*0.125))
-questions = 2
 
+### Setting up the LLM Model for question generation
 Settings.llm = AzureOpenAI(
     engine="gpt-4o",
     api_key=os.environ.get('AZURE_OPENAI_API_KEY'),
@@ -48,6 +46,7 @@ storage_context = StorageContext.from_defaults(
 rag = load_index_from_storage(storage_context)
 rag = rag.as_query_engine()
 print('Finished loading index from vec_store.')
+
 def generate_quiz(week_number, num_questions, output_local):
 
     # get week data
@@ -168,5 +167,6 @@ if __name__=='__main__':
     parser.add_argument('--output_local', type=str, default='.',)
     args = parser.parse_args()
 
-    generate_quiz(args.week_number, args.num_questions,
+    generate_quiz(args.week_number,
+                  args.num_questions,
                   args.output_local)

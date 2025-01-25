@@ -1,3 +1,9 @@
+'''
+The scourse time table for AIM2 course. This course can be found at:
+https://zitniklab.hms.harvard.edu/AIM2/
+'''
+
+
 course_schedule = {
     "weeks": [
         {

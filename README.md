@@ -1,50 +1,142 @@
-# QuizGen-RAG
+# README: RAG-Based Quiz Generation System
 
+## Overview
 
-### Overview
-**QuizGen-RAG** is a Retrieval-Augmented Generation (RAG) model designed to generate quiz questions from a database of research articles or educational materials. The model is capable of producing short-answer questions at varying levels of difficulty, providing a flexible solution for automated quiz generation across diverse fields of study.
+This project provides a Retrieval-Augmented Generation (RAG)-based system for creating short-answer quiz questions tailored to educational settings. The primary goal is to transform educational content into formative assessments, helping educators evaluate student understanding and guide learning effectively. Designed for technical and non-technical users, the system leverages Large Language Models (LLMs) and vector-based retrieval to generate questions aligned with Bloom's Taxonomy levels.
 
-### Project Goals
-- **Text Extraction**: Extract structured text from research articles and educational PDFs.
-- **Content Retrieval**: Build a searchable database of course content, enabling targeted retrieval for question generation.
-- **Quiz Question Generation**: Generate quiz questions with customizable difficulty levels, adaptable to specific learning objectives.
-- **Browser-Based Interface**: Create a user-friendly web app for students and educators to access quizzes and engage with course content.
+## Features
 
-### Folder Structure
-- **/data/pdf_content/**: Folder for storing PDF files for processing.
-- **/data/processed_text/**: Processed text extracted from the PDFs.
-- **/app/**: Code for the browser-based interface.
-- **/scripts/**: Scripts for content extraction, question generation, and database management.
+1. **RAG-Based Question Generation**:
+   - Extracts relevant facts from educational materials.
+   - Generates short-answer quiz questions tailored to cognitive levels (Knowledge, Understanding, Applying, Analyzing, Evaluating, Creating).
 
-### Getting Started
-1. **Clone the Repository**:
+2. **Customizable Course Integration**:
+   - Generates quiz questions for specific weeks or topics.
+   - Pulls from predefined learning objectives and reference materials.
+
+3. **Modular Design**:
+   - Core functionality is split across key scripts for ease of use and customization.
+
+## File Structure
+
+### Core Scripts
+
+1. **`build_RAG.py`**:
+   - Handles the creation of a vector-based retrieval index from educational materials (PDFs).
+   - Uses Azure OpenAI embeddings and LLM configurations.
+   - Creates or loads a `vec_store` for efficient querying.
+
+2. **`generate_quiz.py`**:
+   - Generates quiz questions based on the RAG model outputs and predefined learning objectives.
+   - Supports output in JSON and CSV formats.
+   - Accepts command-line arguments for customization.
+
+### Supporting Scripts
+
+1. **`BTQ_prompt.py`**:
+   - Provides specialized prompts for generating questions at various Bloom's Taxonomy levels.
+   - Defines the logic for structuring RAG and LLM prompts.
+
+2. **`course_time_table.py`**:
+   - Contains the course schedule, including weekly topics, concepts, and required readings.
+   - Acts as a blueprint for quiz generation.
+
+## Dependencies
+
+1. **Python Libraries**:
+   - `numpy`
+   - `pandas`
+   - `dotenv`
+   - `argparse`
+   - `llama_index`
+2. **Azure OpenAI Services**:
+   - API key and endpoint for LLM and embeddings.
+
+## Setup
+
+1. Clone the repository:
+   ```bash
+   git clone <repository_url>
+   cd <repository_folder>
+   ```
+
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Configure environment variables:
+   - Create a `.env` file in the root directory.
+   - Add the following:
+     ```env
+     AZURE_OPENAI_API_KEY=<your_api_key>
+     AZURE_OPENAI_ENDPOINT=<your_api_endpoint>
+     AZURE_OPENAI_EMBEDDING_ENDPOINT=<your_embedding_endpoint>
+     ```
+
+## Usage
+
+### Step 1: Build the RAG Model
+
+Use the `build_RAG.py` script to parse PDFs and create a vector-based retrieval index:
 ```bash
-git clone https://github.com/yourusername/QuizGen-RAG.git
-cd QuizGen-RAG
+python build_RAG.py --pdf_folder_path <path_to_pdf_folder>
 ```
 
-2. **Install Dependencies**: Ensure Python 3.x is installed, and install required libraries:
+### Step 2: Generate Quiz Questions
+
+Run the `generate_quiz.py` script to create quiz questions:
 ```bash
-pip install -r requirements.txt
+python generate_quiz.py --week_number <week_number> --num_questions <number_of_questions> --output_local <output_directory>
+```
+- `--week_number`: The week from the course schedule to generate questions for.
+- `--num_questions`: Total number of questions (leave as `-1` to generate for all topics).
+- `--output_local`: Directory to save the output file.
+
+### Example
+
+Generate 5 questions for Week 3:
+```bash
+python generate_quiz.py --week_number 3 --num_questions 5 --output_local ./quizzes
 ```
 
-3. **Build RAG Model**: Place PDF files in /data/pdf_content/ and run the 
-   extraction 
-   script:
-```bash
-python scripts/build_RAG.py --pdf_folder_path ./data/pdf_content/ 
-```
+## Extending the System
 
-4. **Generate Quiz Questions**: Generate quiz questions based on the course schedule:
-```bash
-python scripts/generate_quiz.py --week_number <WEEK_NUMBER> --num_questions <NUM_QUESTIONS> --pdf_folder_path ./data/pdf_content/ --output_local <OUTPUT_DIRECTORY>
-```
+1. **Adding New Courses**:
+   - Update `course_time_table.py` with your custom schedule and learning objectives.
 
-### Future Development
-Integration with Knowledge Tracing to enable adaptive question selection.
-User Interface for accessing quizzes via a web application.
+2. **Custom Bloom’s Levels**:
+   - Modify `BTQ_prompt.py` to adjust question templates or add new skill levels.
 
-### License
+3. **Changing LLM Settings**:
+   - Update `build_RAG.py` and `generate_quiz.py` to modify LLM or embedding configurations.
 
-MIT License
+## Troubleshooting
+
+1. **Missing Dependencies**:
+   - Ensure all libraries in `requirements.txt` are installed.
+
+2. **API Errors**:
+   - Verify your `.env` file contains valid Azure OpenAI credentials.
+
+3. **Empty Output**:
+   - Check if the `vec_store` was correctly built with the `build_RAG.py` script.
+
+## Future Directions
+
+- Integration with a user-friendly web interface.
+- Support for additional embedding models.
+- Advanced analytics for student performance.
+
+## License
+
+MIT License. See `LICENSE` for more details.
+
+## Contributors
+
+- Grey Kuling (Lead Developer)
+- Marinka Zitnik (Advisor)
+
+---
+Happy Teaching!
 
