@@ -82,6 +82,9 @@ def generate_quiz(week_number, num_questions, output_local):
     college-level course. These questions are formative assessments, checking 
     students’ current understanding to guide further learning, not a final, 
     summative evaluation.  
+    
+    You are currently working on a course on Artificial Intelligence in 
+    Medicine.
 
     Each question should be answerable in around 200 words or fewer.
 

@@ -16,7 +16,7 @@ bloom_instructions = {
     ),
     "Applying": (
         "Generate a question that requires students to *apply or demonstrate* knowledge "
-        "from the learning objective '{topic}' in a real-world or practical scenario."
+        "from the learning objective '{topic}' in a clinical scenario."
     ),
     "Analyzing": (
         "Generate a question that asks students to *compare, contrast, or break down* "
@@ -28,7 +28,8 @@ bloom_instructions = {
     ),
     "Creating": (
         "Generate a question that asks students to *design, propose, or construct* "
-        "a new idea or solution using knowledge from the learning objective '{topic}'."
+        "a new idea or solution using knowledge from the learning objective "
+        "'{topic}' in a medical scenario."
     )
 }
 
