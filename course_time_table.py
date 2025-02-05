@@ -49,10 +49,10 @@ course_schedule = {
             "concepts": [
                 "Variational Autoencoders (VAEs)",
                 "Generative Adversarial Networks (GANs)",
-                "GenAI Fundamentals (training, optimization and RLHF)",
-                "LLMs and Multimodal LLMs",
-                "Grounding and RAG",
-                "Healthcare applications of generative AI",
+                "GenAI Fundamentals (training, optimization and Reinforcement Learning from Human Feedback)",
+                "LArge Language Models and Multimodal Large Language Models",
+                "Grounding and Retrieval Augmented Generators",
+                "Healthcare applications of generative artificial intelligence",
                 "Synthetic data generation",
                 "Data privacy concerns"
             ],
