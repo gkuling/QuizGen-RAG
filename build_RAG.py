@@ -19,10 +19,10 @@ dotenv.load_dotenv('.env')
 chunk_sz = 1024
 overlap = int(np.round(chunk_sz*0.125))
 questions = 2
-
+key_name = 'AZURE_OPENAI_API_KEY_C'
 Settings.llm = AzureOpenAI(
     engine="gpt-4o",
-    api_key=os.environ.get('AZURE_OPENAI_API_KEY'),
+    api_key=os.environ.get(key_name),
     azure_endpoint=os.environ.get('AZURE_OPENAI_ENDPOINT'),
     api_version="2024-05-01-preview",
 )
@@ -30,7 +30,7 @@ Settings.llm = AzureOpenAI(
 Settings.embed_model = AzureOpenAIEmbedding(
     model="text-embedding-ada-002",
     deployment_name="text-embedding-3-small",
-    api_key=os.environ.get('AZURE_OPENAI_API_KEY'),
+    api_key=os.environ.get(key_name),
     azure_endpoint=os.environ.get('AZURE_OPENAI_EMBEDDING_ENDPOINT'),
     api_version='2023-05-15',
 )

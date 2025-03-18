@@ -38,7 +38,8 @@ def generate_quiz_question_prompt(topic, topic_type, bloom_level, rag_gen):
     assert bloom_level in bloom_instructions_objective, f"Invalid skill level: {bloom_level}"
     
     if topic_type == "concept":
-        topic_preamble = "Given the week's learning objective: " + topic + "\n\n"
+        topic_preamble = ("Given the class's learning objective: " + topic +
+                          "\n\n")
     elif topic_type == "article":   
         topic_preamble = "Given the required reading reference: " + topic + "\n\n"
     else:
