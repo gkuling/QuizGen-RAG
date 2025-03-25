@@ -18,7 +18,7 @@ dotenv.load_dotenv('.env')
 ### Setting up the LLM Model for question generation
 Settings.llm = AzureOpenAI(
     engine="gpt-4o",
-    api_key=os.environ.get('AZURE_OPENAI_API_KEY'),
+    api_key=os.environ.get('AZURE_OPENAI_API_KEY_Z'),
     azure_endpoint=os.environ.get('AZURE_OPENAI_ENDPOINT'),
     api_version="2024-05-01-preview",
 )
@@ -26,7 +26,7 @@ Settings.llm = AzureOpenAI(
 Settings.embed_model = AzureOpenAIEmbedding(
     model="text-embedding-ada-002",
     deployment_name="text-embedding-3-small",
-    api_key=os.environ.get('AZURE_OPENAI_API_KEY'),
+    api_key=os.environ.get('AZURE_OPENAI_API_KEY_Z'),
     azure_endpoint=os.environ.get('AZURE_OPENAI_EMBEDDING_ENDPOINT'),
     api_version='2023-05-15',
 )
