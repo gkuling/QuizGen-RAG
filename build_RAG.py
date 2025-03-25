@@ -8,10 +8,6 @@ from llama_index.core import SimpleDirectoryReader, Settings, VectorStoreIndex, 
 from llama_index.embeddings.azure_openai import AzureOpenAIEmbedding
 from llama_index.core import StorageContext
 from llama_index.llms.azure_openai import AzureOpenAI
-from llama_index.core.extractors import (
-    TitleExtractor,
-    QuestionsAnsweredExtractor,
-)
 from llama_index.core.node_parser import TokenTextSplitter
 
 import dotenv
