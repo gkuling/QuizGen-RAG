@@ -52,13 +52,13 @@ def generate_quiz_question_prompt(topic, topic_type, bloom_level, rag_gen):
             topic_preamble +
             f"And the following facts: \n{facts}\n\n" +
             bloom_instructions_objective[bloom_level].format(topic=topic) +
-            " Provide a detailed answer to this question a graduate student would respond with in 200 words or less."
+            " Provide a detailed answer to this question a graduate student would respond with."
         )
     elif topic_type == "article":
         prompt = (
             topic_preamble +
             f"And the following facts: \n{facts}\n\n" +
             bloom_instructions_reference[bloom_level].format(topic=topic) +
-            " Provide a detailed answer to this question a graduate student would respond with in 200 words or less."
+            " Provide a detailed answer to this question a graduate student would respond with."
         )
     return prompt
