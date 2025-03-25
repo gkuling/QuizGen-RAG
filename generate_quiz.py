@@ -20,7 +20,7 @@ questions = 2
 
 Settings.llm = AzureOpenAI(
     engine="gpt-4o",
-    api_key=os.environ.get('AZURE_OPENAI_API_KEY'),
+    api_key=os.environ.get('AZURE_OPENAI_API_KEY_Z'),
     azure_endpoint=os.environ.get('AZURE_OPENAI_ENDPOINT'),
     api_version="2024-05-01-preview",
 )
@@ -28,7 +28,7 @@ Settings.llm = AzureOpenAI(
 Settings.embed_model = AzureOpenAIEmbedding(
     model="text-embedding-ada-002",
     deployment_name="text-embedding-3-small",
-    api_key=os.environ.get('AZURE_OPENAI_API_KEY'),
+    api_key=os.environ.get('AZURE_OPENAI_API_KEY_Z'),
     azure_endpoint=os.environ.get('AZURE_OPENAI_EMBEDDING_ENDPOINT'),
     api_version='2023-05-15',
 )
@@ -90,9 +90,10 @@ def generate_quiz(pdf_folder_path, week_number, num_questions, output_local):
     repeat_count = int(np.ceil(num_questions / len(question_options)))
 
     # Repeat the list and slice to get the exact target length
+    repeat_count = 1 if repeat_count == 0 else repeat_count
     question_options = (question_options * repeat_count)
     np.random.shuffle(question_options)
-    question_options = question_options[:num_questions]
+    question_options = question_options[:num_questions] if num_questions > 0 else question_options
 
     questions_list = []
     for i, question in enumerate(question_options):
@@ -138,7 +139,7 @@ if __name__=='__main__':
     parser.add_argument('--week_number', type=int,
                         help='The week number for which to generate quiz '
                              'questions.')
-    parser.add_argument('--num_questions', type=int, default=2,
+    parser.add_argument('--num_questions', type=int, default=-1,
                         help='The number of quiz questions to generate.')
     parser.add_argument('--pdf_folder_path', type=str,
                         help='Path to the folder containing the vec_store.')
