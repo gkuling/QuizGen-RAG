@@ -1,0 +1,22 @@
+course:
+  id: MINI
+  title: Mini Test Course
+weeks:
+  - week: 1
+    title: "Introductory Topics"
+    concepts:
+      - "Concept A"
+      - "Concept B"
+      - "Concept C"
+    required_readings:
+      - "Smith, J. et al. (2023). A foundational paper on topic A."
+      - "Johnson, M., et al. (2023). Another key reading on topic B."
+  - week: 2
+    title: "Advanced Topics"
+    concepts:
+      - "Advanced Concept A"
+      - "Advanced Concept B"
+    required_readings:
+      - citation: "Brown, K., et al. (2024). Advanced research with supplementary material."
+        source_file: "example.pdf"
+      - "Garcia, L. (2023). Standalone reference without supplementary file."
