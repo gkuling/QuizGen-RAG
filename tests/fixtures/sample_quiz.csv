@@ -1,0 +1,23 @@
+question_id,week,taxonomy,learning_objective,reference,source_files,facts,question,answer,model,generated_at
+w01-q001,1,Knowledge,Understand basic NLP concepts,Singhal et al. 2023,nlp_basics.pdf,Large language models can process clinical text effectively.,What is natural language processing?,"Natural language processing (NLP) is a subfield of artificial intelligence that focuses on enabling computers to understand, interpret, and generate human language in a meaningful way.",gpt-4o,2026-07-30T12:00:00Z
+w01-q001,1,Understanding,Understand transformer architecture,Devlin et al. 2019,transformers.pdf,BERT uses bidirectional transformer encoders.,Explain the BERT transformer architecture.,BERT (Bidirectional Encoder Representations from Transformers) is a pre-trained language model that uses bidirectional transformer encoders to learn contextual embeddings.,gpt-4o,2026-07-30T12:15:00Z
+w02-q003,2,Applying,Apply embeddings to clinical text,Lee et al. 2020,embeddings.pdf,Word embeddings convert words to numeric vectors.,How do word embeddings help in clinical text processing?,Word embeddings represent words as dense vectors that capture semantic relationships.,gpt-4o,2026-07-30T12:30:00Z
+w02-q004,2,Applying,Apply embeddings to medical text,Lee et al. 2020,embeddings.pdf,Word embeddings convert words to numeric vectors in a high-dimensional space.,How do word embeddings help in medical text processing?,Word embeddings represent words as dense vectors that capture semantic meanings.,gpt-4o,2026-07-30T12:45:00Z
+w03-q005,3,Remembering,Remember what GANs are,Goodfellow et al. 2014,gans.pdf,GANs consist of a generator and discriminator network.,What does GAN stand for?,GAN stands for Generative Adversarial Network.,gpt-4o,2026-07-30T13:00:00Z
+w03-q006,3,Analyzing,Analyze VAE architecture,Goodfellow et al. 2014,vae.pdf,Variational autoencoders learn latent representations.,Explain the difference between VAEs and standard autoencoders.,,gpt-4o,2026-07-30T13:15:00Z
+w04-q007,4,Evaluating,Evaluate agentic AI approaches,Tu et al. 2024,agentic_ai.pdf,LLM agents combine reasoning with tool use for complex tasks.,What are the key considerations for deploying LLM-based agents in clinical settings?,"Deploying LLM-based agents in clinical settings requires careful consideration of multiple critical factors that span technical, regulatory, ethical, and organizational dimensions. 
+
+First, accuracy and reliability are paramount since healthcare decisions directly impact patient outcomes. Agents must undergo rigorous validation testing against diverse patient populations, edge cases, and rare diseases before any clinical deployment. This includes stress testing under various clinical scenarios.
+
+Second, interpretability and explainability are essential so clinicians understand how the agent reached its recommendations and can override decisions when needed. Black-box models are generally unacceptable in high-stakes medical contexts.
+
+Third, seamless integration with existing electronic health record systems and clinical workflows is necessary to ensure widespread adoption by busy clinicians who have limited time for learning new systems.
+
+Fourth, regulatory compliance must be addressed including HIPAA for patient privacy, FDA oversight for AI-based medical devices, and other healthcare regulations specific to your jurisdiction.
+
+Fifth, continuous monitoring and performance tracking systems must be in place to detect model drift, maintain accuracy over time, and identify potential biases that emerge after deployment.
+
+Sixth, conducting thorough cost-benefit analysis is critical to demonstrate clear clinical value and improved patient outcomes that justify implementation costs and workflow changes.
+
+Additionally, ethical considerations around algorithmic bias, fairness across demographic groups, and transparency about AI limitations must be thoroughly evaluated before deployment. Training and comprehensive change management for clinical staff is essential for successful adoption and proper use of agent recommendations in clinical decision-making processes.",gpt-4o,2026-07-30T13:30:00Z
+w05-q008,5,Creating,Design a medical image analysis workflow,Litjens et al. 2017,medical_imaging.pdf,Deep learning models achieve dermatologist-level performance on skin lesion classification.,Design a CNN-based pipeline for detecting diabetic retinopathy in retinal images.,"A CNN pipeline would include preprocessing (normalization, augmentation), a ResNet or similar backbone pretrained on ImageNet, fine-tuning on diabetic retinopathy data, and post-processing with confidence thresholding and ensemble methods for robustness.",gpt-4o,2026-07-30T13:45:00Z
