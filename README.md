@@ -9,38 +9,51 @@ Retrieval-augmented generation of Bloom's-taxonomy-targeted short-answer quiz qu
 ```mermaid
 flowchart TD
     subgraph build["Index build: build_RAG.py"]
-        A["Course reading PDFs"] --> B["SimpleDirectoryReader"]
-        B --> C["TokenTextSplitter<br/>chunk 1024, overlap 128"]
-        C --> D["AzureOpenAIEmbedding<br/>text-embedding-3-small"]
-        D --> E[("SimpleVectorStore<br/>persisted to disk")]
+        A["Course reading PDFs"]:::input --> B["SimpleDirectoryReader"]:::step
+        B --> C["TokenTextSplitter<br/>chunk 1024, overlap 128"]:::step
+        C --> D["AzureOpenAIEmbedding<br/>text-embedding-3-small"]:::llm
+        D --> E[("SimpleVectorStore<br/>persisted to disk")]:::store
     end
 
     subgraph gen["Generation: generate_quiz.py"]
-        F["Course config YAML<br/>weeks, concepts, readings"] --> G["Question slots<br/>reading x concept x Bloom level"]
-        G --> H["LLM call 1: query engine<br/>retrieve top-k chunks,<br/>synthesize top 10 facts"]
-        H --> I["Facts + source file names<br/>retrieval provenance"]
-        I --> J["LLM call 2: gpt-4o<br/>author one Q and A as JSON"]
-        J --> K["Quiz CSV"]
+        F["Course config YAML<br/>weeks, concepts, readings"]:::input --> G["Question slots<br/>reading x concept x Bloom level"]:::step
+        G --> H["LLM call 1: query engine<br/>retrieve top-k chunks,<br/>synthesize top 10 facts"]:::llm
+        H --> I["Facts + source file names<br/>retrieval provenance"]:::step
+        I --> J["LLM call 2: gpt-4o<br/>author one Q and A as JSON"]:::llm
+        J --> K["Quiz CSV"]:::artifact
     end
 
     E -.->|"retrieval"| H
 
     subgraph refine["Optional refinement: round_table.py"]
-        L["4 persona agents<br/>x N rounds, shared history"] --> M["Synthesizer agent"]
-        M --> N["One improved Q and A"]
+        L["4 persona agents<br/>x N rounds, shared history"]:::agent --> M["Synthesizer agent"]:::agent
+        M --> N["One improved Q and A"]:::agent
     end
 
     J -.->|"--refine"| L
     N --> K
 
     subgraph eval["Evaluation: evaluate_quiz.py"]
-        K --> O["Implemented: schema, Bloom<br/>distribution, near-duplicates,<br/>coverage, draft vs final"]
-        K --> P["Blinded human rating sheet"]
-        Q["Not implemented:<br/>groundedness, Bloom alignment"]
+        K --> O["Implemented: schema, Bloom<br/>distribution, near-duplicates,<br/>coverage, draft vs final"]:::artifact
+        K --> P["Blinded human rating sheet"]:::artifact
+        Q["Not implemented:<br/>groundedness, Bloom alignment"]:::stub
     end
 
-    style Q stroke-dasharray: 5 5
+    classDef input fill:#dbeafe,stroke:#2563eb,stroke-width:1.5px,color:#0f172a
+    classDef step fill:#e2e8f0,stroke:#64748b,stroke-width:1.5px,color:#0f172a
+    classDef llm fill:#ede9fe,stroke:#7c3aed,stroke-width:1.5px,color:#2e1065
+    classDef store fill:#cffafe,stroke:#0e7490,stroke-width:1.5px,color:#083344
+    classDef artifact fill:#dcfce7,stroke:#16a34a,stroke-width:1.5px,color:#052e16
+    classDef agent fill:#ffedd5,stroke:#ea580c,stroke-width:1.5px,color:#431407
+    classDef stub fill:#f1f5f9,stroke:#94a3b8,stroke-width:1.5px,color:#475569,stroke-dasharray: 5 5
+
+    style build fill:transparent,stroke:#94a3b8,stroke-width:1px
+    style gen fill:transparent,stroke:#94a3b8,stroke-width:1px
+    style refine fill:transparent,stroke:#94a3b8,stroke-width:1px
+    style eval fill:transparent,stroke:#94a3b8,stroke-width:1px
 ```
+
+Node colors: blue = inputs, violet = model calls, teal = the vector store, orange = the round-table agents, green = outputs and implemented checks, dashed grey = designed but not implemented.
 
 ## What this is and why it exists
 
